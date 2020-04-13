@@ -1,15 +1,39 @@
 import React from 'react'
 import { Button, InputNumber } from 'antd';
 import './Home.css';
-import { createChangeAction, createAsyncAddAction } from '../actions/index';
+import { createChangeAction, createAsyncAddAction } from '../../actions/index';
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
+    console.log('constructor')
     this.state = {
       count: 0
     }
   }
+  static getDerivedStateFromProps(props, state) {
+    console.log('getDerivedStateFromProps', 'props:', props, 'state:', state);
+    return null;
+  }
+  componentDidMount() {
+    console.log('componentDidMount');
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('shouldComponentUpdate', 'props:', nextProps, 'state:', nextState);
+    return true;
+  }
+
+  getSnapshotBeforeUpdate = (prevProps, prevState) => {
+    console.log('getSnapshotBeforeUpdate', 'props:', prevProps, 'state:', prevState);
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('componentDidUpdate', 'props:', prevProps, 'state:', prevState);
+  }
+  
+  
+  
   handleClick(needAsync=false) {
     if(needAsync) {
       this.props.store.dispatch(createAsyncAddAction(this.state.count));
@@ -19,7 +43,7 @@ class Home extends React.Component {
   }
   render() {
     const { store } = this.props;
-    console.log(store.getState());
+    console.log('render:', store.getState());
     const { countData } = store.getState();
     return (
       <React.Fragment>
