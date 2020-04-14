@@ -42,3 +42,16 @@ Hook 就是 JavaScript 函数，但是使用它们会有两个额外的规则：
 
 + 只能在函数最外层调用 Hook。不要在循环、条件判断或者子函数中调用。
 + 只能在 React 的函数组件中调用 Hook。不要在其他 JavaScript 函数中调用。（还有一个地方可以调用 Hook —— 就是自定义的 Hook 中，我们稍后会学习到。）
+
+# 4. Context Hook
+接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。当前的 context 值由上层组件中距离当前组件最近的 <MyContext.Provider> 的 value prop 决定。
+
+当组件上层最近的 <MyContext.Provider> 更新时，该 Hook 会触发重渲染，并使用最新传递给 MyContext provider 的 context value 值。即使祖先使用 React.memo 或 shouldComponentUpdate，也会在组件本身使用 useContext 时重新渲染。
+
+别忘记 useContext 的参数必须是 context 对象本身：
+
++ 正确： useContext(MyContext)
++ 错误： useContext(MyContext.Consumer)
++ 错误： useContext(MyContext.Provider)
+
+调用了 useContext 的组件总会在 context 值变化时重新渲染。如果重渲染组件的开销较大，你可以 通过使用 memoization 来优化。
